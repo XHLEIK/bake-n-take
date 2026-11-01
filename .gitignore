@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/playwright-report
+/test-results
+/blob-report
+/.playwright
 
 # next.js
 /.next/
@@ -32,6 +36,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +44,24 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# graphify context graph (generated locally)
+graphify-out/
+.graphify_*
+
+# editor/tooling scratch
+.kilo/
+.freebuff/
+
+
+# Supabase plugin OAuth credentials (secret — never commit)
+.opencode/supabase-auth.json
+
+# local agent/tooling artifacts (not part of the app)
+/.opencode/
+/.agents/
+/.playwright-mcp/
+/session-*.md
+/skills-lock.json
+/opencode.json
+/opencode.json.*

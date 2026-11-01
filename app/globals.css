@@ -1,26 +1,662 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
+/*
+ * Bake n Take design tokens.
+ *
+ * The shadcn/ui variable names are preserved so every component in
+ * `components/ui` keeps working; the values are the bakery palette
+ * (warm cream, toasted caramel, cocoa, berry jam). Light and dark are complete
+ * and independent: nothing is derived by filtering or inverting the other.
+ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+  /* Editorial serif for brand moments (auth lockup and statement). */
+  --font-serif: var(--font-cormorant), Georgia, serif;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Brand accents used by the marketing and auth surfaces. */
+  --color-cream: var(--cream);
+  --color-crust: var(--crust);
+  --color-berry: var(--berry);
+  --color-sage: var(--sage);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-rise: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade: fade 0.35s ease-out both;
+  --animate-rise-soft: rise-soft 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-soft: fade-soft 0.5s ease-out both;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ------------------------------------------------------------------ light -- */
+:root {
+  --background: oklch(0.986 0.011 87);
+  --foreground: oklch(0.253 0.028 52);
+
+  --card: oklch(0.998 0.004 90);
+  --card-foreground: oklch(0.253 0.028 52);
+
+  --popover: oklch(0.998 0.004 90);
+  --popover-foreground: oklch(0.253 0.028 52);
+
+  /* Toasted caramel — the brand colour. */
+  --primary: oklch(0.542 0.128 52);
+  --primary-foreground: oklch(0.99 0.012 88);
+
+  --secondary: oklch(0.938 0.028 84);
+  --secondary-foreground: oklch(0.323 0.036 50);
+
+  --muted: oklch(0.955 0.017 85);
+  --muted-foreground: oklch(0.468 0.031 54);
+
+  --accent: oklch(0.945 0.028 78);
+  --accent-foreground: oklch(0.323 0.036 50);
+
+  --destructive: oklch(0.524 0.187 27);
+
+  --border: oklch(0.893 0.022 80);
+  --input: oklch(0.878 0.024 80);
+  --ring: oklch(0.62 0.118 55 / 60%);
+
+  --chart-1: oklch(0.542 0.128 52);
+  --chart-2: oklch(0.62 0.104 25);
+  --chart-3: oklch(0.588 0.062 152);
+  --chart-4: oklch(0.436 0.052 55);
+  --chart-5: oklch(0.802 0.086 84);
+
+  --radius: 0.75rem;
+
+  --sidebar: oklch(0.978 0.014 86);
+  --sidebar-foreground: oklch(0.253 0.028 52);
+  --sidebar-primary: oklch(0.542 0.128 52);
+  --sidebar-primary-foreground: oklch(0.99 0.012 88);
+  --sidebar-accent: oklch(0.945 0.028 78);
+  --sidebar-accent-foreground: oklch(0.323 0.036 50);
+  --sidebar-border: oklch(0.893 0.022 80);
+  --sidebar-ring: oklch(0.62 0.118 55 / 60%);
+
+  --cream: oklch(0.971 0.021 84);
+  --crust: oklch(0.542 0.128 52);
+  --berry: oklch(0.52 0.132 12);
+  --sage: oklch(0.502 0.058 155);
+}
+
+/* ------------------------------------------------------------------- dark -- */
+.dark {
+  --background: oklch(0.192 0.014 58);
+  --foreground: oklch(0.946 0.014 86);
+
+  --card: oklch(0.232 0.017 58);
+  --card-foreground: oklch(0.946 0.014 86);
+
+  --popover: oklch(0.232 0.017 58);
+  --popover-foreground: oklch(0.946 0.014 86);
+
+  /* Lighter caramel: keeps AA contrast for text on dark caramel fills. */
+  --primary: oklch(0.767 0.111 66);
+  --primary-foreground: oklch(0.226 0.03 56);
+
+  --secondary: oklch(0.296 0.019 58);
+  --secondary-foreground: oklch(0.941 0.016 86);
+
+  --muted: oklch(0.272 0.017 58);
+  --muted-foreground: oklch(0.738 0.017 82);
+
+  --accent: oklch(0.308 0.024 62);
+  --accent-foreground: oklch(0.941 0.016 86);
+
+  --destructive: oklch(0.707 0.163 25);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.735 0.104 66 / 55%);
+
+  --chart-1: oklch(0.767 0.111 66);
+  --chart-2: oklch(0.68 0.118 20);
+  --chart-3: oklch(0.712 0.086 158);
+  --chart-4: oklch(0.86 0.032 84);
+  --chart-5: oklch(0.542 0.128 52);
+
+  --sidebar: oklch(0.222 0.016 58);
+  --sidebar-foreground: oklch(0.946 0.014 86);
+  --sidebar-primary: oklch(0.767 0.111 66);
+  --sidebar-primary-foreground: oklch(0.226 0.03 56);
+  --sidebar-accent: oklch(0.308 0.024 62);
+  --sidebar-accent-foreground: oklch(0.941 0.016 86);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.735 0.104 66 / 55%);
+
+  --cream: oklch(0.941 0.016 86);
+  --crust: oklch(0.767 0.111 66);
+  --berry: oklch(0.72 0.132 14);
+  --sage: oklch(0.712 0.086 158);
+}
+
+/* ------------------------------------------------------------------ base -- */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  /*
+   * Defense-in-depth against horizontal page scroll. Root causes are fixed
+   * at their sources (viewport-portaled overlays, self-contained carousels),
+   * so this only clips pathological sub-pixel or third-party overflow.
+   * `clip` (not `hidden`) preserves `position: sticky` on the site header
+   * and never traps `fixed` overlays.
+   */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible, consistent keyboard focus everywhere (never removed, never colour-only). */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--primary) 24%, transparent);
+  }
+
+  /* Native form controls follow the active theme. */
+  input,
+  textarea,
+  select {
+    color-scheme: light;
+  }
+
+  .dark input,
+  .dark textarea,
+  .dark select {
+    color-scheme: dark;
+  }
+
+  /*
+   * Auth fit system (desktop): the split shell never scrolls. Every vertical
+   * dimension of the form column is driven by height-aware custom properties:
+   * compact values by default (comfortable from ~640px-tall windows up),
+   * relaxing to airier spacing on tall screens. The form column keeps
+   * overflow-y-auto purely as an invisible safety net for extreme zoom - at
+   * every real desktop size the layout fits with no scrollbar at all.
+   */
+  @media (min-width: 1024px) {
+    [data-auth-shell] {
+      --auth-shell-pad-y: 0.75rem;
+      --auth-card-pad: 1.25rem;
+      --auth-gap: 0.75rem;
+      --auth-input-h: 2.625rem;
+      --auth-oauth-h: 2.25rem;
+      --auth-submit-h: 2.375rem;
+      --auth-title: 1.7rem;
+      --auth-desc: 0.8125rem;
+      --auth-desc-display: none;
+    }
+
+    /* Safety net only: never shows a scrollbar at real desktop sizes. */
+    [data-auth-scroll] {
+      scrollbar-width: none;
+    }
+
+    [data-auth-scroll]::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  /* Tall desktops get the airier, more generous composition back. */
+  @media (min-width: 1024px) and (min-height: 860px) {
+    [data-auth-shell] {
+      --auth-shell-pad-y: 2.75rem;
+      --auth-card-pad: 2rem;
+      --auth-gap: 1.25rem;
+      --auth-input-h: 3.25rem;
+      --auth-oauth-h: 2.75rem;
+      --auth-submit-h: 3.25rem;
+      --auth-title: 2.35rem;
+      --auth-desc: 0.875rem;
+      --auth-desc-display: block;
+    }
+  }
+
+  /* Very short desktop windows: tighten to the floor so nothing clips. */
+  @media (min-width: 1024px) and (max-height: 620px) {
+    [data-auth-shell] {
+      --auth-shell-pad-y: 0.5rem;
+      --auth-card-pad: 1rem;
+      --auth-gap: 0.625rem;
+      --auth-input-h: 2.5rem;
+      --auth-oauth-h: 2.125rem;
+      --auth-submit-h: 2.25rem;
+      --auth-title: 1.5rem;
+      --auth-desc: 0.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Gentler entrances for inline status messages. */
+@keyframes rise-soft {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 4px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fade-soft {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Ambient aurora washes. Position is set by the element (inset classes);
+ * the keyframes only add a slow translate drift, so transform stays the
+ * only animated property. Everything freezes under reduced motion below.
+ */
+.aurora-wash {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4rem, 3rem, 0) scale(1.08);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-5rem, 4rem, 0) scale(1.12);
+  }
+}
+
+@keyframes drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3rem, -4rem, 0) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-wash,
+  [class*="animate-\[drift-"] {
+    animation: none !important;
+  }
+}
+
+/**
+ * True film grain (SVG turbulence): organic, per-pixel luminance noise that
+ * warms flat washes. Blend both channels so dark mode stays clean.
+ */
+@utility brand-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  mix-blend-mode: overlay;
+}
+
+.dark .brand-grain {
+  mix-blend-mode: soft-light;
+}
+
+/** Shared material system for pill-style brand surfaces (auth CTAs, chips). */
+@utility brand-surface {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--primary) 92%, white 8%),
+    var(--primary)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 14px 30px -14px color-mix(in oklab, var(--primary) 85%, black 15%);
+}
+
+.brand-surface:hover {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--primary) 88%, white 12%),
+    color-mix(in oklab, var(--primary) 94%, white 6%)
+  );
+}
+
+.brand-surface:active {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 8px 20px -12px color-mix(in oklab, var(--primary) 85%, black 15%);
+}
+
+/**
+ * Warm, low-noise backdrop for the auth and landing surfaces: two soft radial
+ * washes over the page background. No images, no blur filters, no layout cost.
+ */
+@utility brand-canvas {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(
+      110% 70% at 12% -10%,
+      color-mix(in oklab, var(--primary) 13%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      90% 60% at 100% 8%,
+      color-mix(in oklab, var(--berry) 9%, transparent),
+      transparent 58%
+    );
+}
+
+/** Fine paper-grain texture for the brand panel (pure CSS, no asset). */
+@utility brand-grain {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklab, var(--foreground) 4%, transparent) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+/*
+ * Storefront section surfaces (Option B art direction).
+ *
+ * Each band paints only its own content-height box: layered radial light
+ * sized in percentages of the element itself, over flat token tones. No
+ * fixed layers, no page-height sizing, no viewport units — so horizontal
+ * seams are structurally impossible. Every color derives from the existing
+ * bakery tokens, which adapt to light and dark together.
+ */
+@utility surface-hero {
+  background-color: color-mix(in oklab, var(--cream) 55%, var(--background));
+  background-image:
+    radial-gradient(
+      90% 65% at 50% 0%,
+      color-mix(in oklab, var(--primary) 13%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      130% 130% at 50% 45%,
+      transparent 58%,
+      color-mix(in oklab, var(--secondary) 30%, transparent)
+    );
+}
+
+/* Dark theme keeps its previously approved espresso atmosphere. */
+.dark .surface-hero {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(
+      90% 65% at 50% 0%,
+      color-mix(in oklab, var(--primary) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      55% 45% at 85% 100%,
+      color-mix(in oklab, var(--berry) 8%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      130% 130% at 50% 45%,
+      transparent 58%,
+      color-mix(in oklab, black 16%, transparent)
+    );
+}
+
+@utility surface-counter {
+  background-color: color-mix(in oklab, var(--secondary) 40%, var(--background));
+  background-image:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--primary) 9%, transparent),
+      transparent 22%
+    ),
+    radial-gradient(
+      70% 80% at 50% 25%,
+      color-mix(in oklab, var(--primary) 12%, transparent),
+      transparent 70%
+    );
+}
+
+/* Dark theme keeps its previously approved restraint. */
+.dark .surface-counter {
+  background-color: color-mix(in oklab, var(--secondary) 22%, transparent);
+  background-image: radial-gradient(
+    70% 80% at 50% 25%,
+    color-mix(in oklab, var(--primary) 8%, transparent),
+    transparent 70%
+  );
+}
+
+@utility surface-featured {
+  background-color: color-mix(in oklab, var(--secondary) 65%, var(--background));
+  background-image: radial-gradient(
+    60% 70% at 12% 20%,
+    color-mix(in oklab, var(--berry) 11%, transparent),
+    transparent 70%
+  );
+}
+
+/* Dark theme keeps its previously approved restraint. */
+.dark .surface-featured {
+  background-color: color-mix(in oklab, var(--card) 45%, transparent);
+  background-image: radial-gradient(
+    60% 70% at 12% 20%,
+    color-mix(in oklab, var(--berry) 8%, transparent),
+    transparent 70%
+  );
+}
+
+/*
+ * Quiet offers band: the faintest warm tint so the rail reads as a
+ * section, with a breath of caramel light. Shared formula — the
+ * color-mix tokens adapt it to dark automatically.
+ */
+@utility surface-offers {
+  background-color: color-mix(in oklab, var(--accent) 35%, transparent);
+  background-image: radial-gradient(
+    60% 70% at 50% 30%,
+    color-mix(in oklab, var(--primary) 6%, transparent),
+    transparent 70%
+  );
+}
+
+/*
+ * Newsletter band: warm base tint plus the berry glow, contained in its
+ * own box. Shared formula, theme-adaptive like the rest.
+ */
+@utility surface-news {
+  background-color: color-mix(in oklab, var(--secondary) 30%, transparent);
+  background-image: radial-gradient(
+    80% 100% at 50% 100%,
+    color-mix(in oklab, var(--berry) 10%, transparent),
+    transparent 70%
+  );
+}
+
+@utility surface-trending {
+  background-color: color-mix(in oklab, var(--secondary) 55%, var(--background));
+  background-image:
+    radial-gradient(
+      60% 75% at 85% 20%,
+      color-mix(in oklab, var(--primary) 12%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 60% at 10% 90%,
+      color-mix(in oklab, var(--primary) 6%, transparent),
+      transparent 70%
+    );
+}
+
+/* Dark theme keeps its previously approved restraint. */
+.dark .surface-trending {
+  background-color: var(--background);
+  background-image: radial-gradient(
+    60% 75% at 85% 25%,
+    color-mix(in oklab, var(--primary) 9%, transparent),
+    transparent 70%
+  );
+}
+
+@utility surface-reviews {
+  background-color: color-mix(in oklab, var(--secondary) 45%, var(--background));
+  background-image: radial-gradient(
+    70% 60% at 50% 40%,
+    color-mix(in oklab, var(--berry) 7%, transparent),
+    transparent 70%
+  );
+}
+
+/* Dark theme keeps its previously approved restraint. */
+.dark .surface-reviews {
+  background-color: var(--background);
+  background-image: radial-gradient(
+    70% 60% at 50% 40%,
+    color-mix(in oklab, var(--primary) 5%, transparent),
+    transparent 70%
+  );
+}
+
+/*
+ * About band: warm editorial wash, honeyed in light and embered in dark.
+ * Same content-height architecture as every other band — one glow that
+ * fades inside its own box, never a page-height wash.
+ */
+@utility surface-about {
+  background-color: color-mix(in oklab, var(--cream) 45%, var(--background));
+  background-image: radial-gradient(
+    75% 85% at 18% 30%,
+    color-mix(in oklab, var(--primary) 10%, transparent),
+    transparent 70%
+  );
+}
+
+/* Dark theme keeps its previously approved restraint. */
+.dark .surface-about {
+  background-color: color-mix(in oklab, var(--card) 30%, transparent);
+  background-image: radial-gradient(
+    75% 85% at 18% 30%,
+    color-mix(in oklab, var(--primary) 9%, transparent),
+    transparent 70%
+  );
+}
+
+@utility surface-footer {
+  background-color: color-mix(in oklab, var(--secondary) 70%, var(--background));
+  background-image: radial-gradient(
+    70% 120% at 50% 0%,
+    color-mix(in oklab, var(--primary) 7%, transparent),
+    transparent 70%
+  );
+}
+
+/* Dark theme keeps its previously approved depth. */
+.dark .surface-footer {
+  background-color: var(--card);
+  background-image: radial-gradient(
+    70% 120% at 50% 0%,
+    color-mix(in oklab, var(--primary) 7%, transparent),
+    transparent 70%
+  );
 }

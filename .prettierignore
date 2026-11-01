@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+build
+coverage
+playwright-report
+test-results
+package-lock.json
+graphify-out
+public
+supabase/migrations
+.agents
+.opencode
+.playwright-mcp
+session-*.md
+skills-lock.json
+opencode.json*
